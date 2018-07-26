@@ -4,7 +4,6 @@
 
 
 
-
 #Check if current directory is empty
 
 if [ $(find . -type d | wc -l) -gt  1 ]
@@ -18,3 +17,30 @@ if [ $(find . -type d | wc -l) -gt  1 ]
 fi
 
 printf "\n%s\n" "Continuing..."
+
+
+
+printf "\n%s\n" "Setting env variables..."
+
+
+release_number='2018_06_05'
+export INSTALLATION_PATH="$PWD/$release_number"
+
+export PATH="$INSTALLATION_PATH/linuxbrew/bin:$PATH"
+export PATH="$INSTALLATION_PATH/paths/bin:$PATH"
+export MANPATH="$INSTALLATION_PATH/linuxbrew/share/man:$MANPATH"
+export INFOPATH="$INSTALLATION_PATH/linuxbrew/share/info:$INFOPATH"
+
+export SHARE_PATH="$INSTALLATION_PATH/paths"
+
+#Required for repeatmasker
+export HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE="$INSTALLATION_PATH/ENSEMBL_MOONSHINE_ARCHIVE"
+
+#Add bioperl to PERL5LIB
+export PERL5LIB="$PERL5LIB:$INSTALLATION_PATH/linuxbrew/opt/bioperl-169/libexec"
+
+
+# Setup Perl library dependencies
+export HTSLIB_DIR="$INSTALLATION_PATH/linuxbrew/opt/htslib"
+export KENT_SRC="$INSTALLATION_PATH/linuxbrew/opt/kent"
+export MACHTYPE=x86_64 
