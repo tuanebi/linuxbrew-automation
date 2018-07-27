@@ -18,14 +18,13 @@ fi
 
 printf "\n%s\n" "Continuing..."
 
-
-
 printf "\n%s\n" "Setting env variables..."
 
+release_number="2018_06_05"
+INSTALLATION_PATH="$PWD/$release_number"
 
-release_number='2018_06_05'
-export INSTALLATION_PATH="$PWD/$release_number"
 
+env_variables=$(cat << EOF
 export PATH="$INSTALLATION_PATH/linuxbrew/bin:$PATH"
 export PATH="$INSTALLATION_PATH/paths/bin:$PATH"
 export MANPATH="$INSTALLATION_PATH/linuxbrew/share/man:$MANPATH"
@@ -44,3 +43,27 @@ export PERL5LIB="$PERL5LIB:$INSTALLATION_PATH/linuxbrew/opt/bioperl-169/libexec"
 export HTSLIB_DIR="$INSTALLATION_PATH/linuxbrew/opt/htslib"
 export KENT_SRC="$INSTALLATION_PATH/linuxbrew/opt/kent"
 export MACHTYPE=x86_64 
+
+EOF
+)
+
+
+
+
+#echo $env_variables
+printf "%s\n\n" "$env_variables"
+
+read -p "OK to set above env variables?: "  -n 1 -r
+
+if [[ ! $REPLY =~ ^[Yy]$ ]]
+  then
+    printf "\n%s\n" "Exiting"
+    exit 1
+fi
+
+
+
+eval "$env_variables"
+
+
+
