@@ -2,7 +2,7 @@
 
 
 
-release_number="2018_08_04"
+release_number="2018_08_08_2"
 INSTALLATION_PATH="$PWD/$release_number"
 
 printf "\n%s\n" "****** Setting env variables... ******"
@@ -27,7 +27,7 @@ done
 
 
 #Set PATH to minimal default
-export PATH="/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin"
+export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 
 
@@ -35,7 +35,7 @@ export PATH="/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin"
 
 env_variables=$(cat << EOF
 export INSTALLATION_PATH="$INSTALLATION_PATH"
-export PATH="$INSTALLATION_PATH/paths/bin:$INSTALLATION_PATH/linuxbrew/bin:$PATH"
+export PATH="$INSTALLATION_PATH/paths/bin:$INSTALLATION_PATH/linuxbrew/bin:$INSTALLATION_PATH/linuxbrew/sbin:$PATH"
 export MANPATH="$INSTALLATION_PATH/linuxbrew/share/man:$MANPATH"
 export INFOPATH="$INSTALLATION_PATH/linuxbrew/share/info:$INFOPATH"
 
