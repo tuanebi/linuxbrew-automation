@@ -2,26 +2,26 @@
 
 
 
-release_number="01_09-08-2018"
-INSTALLATION_PATH="$PWD/$release_number"
+RELEASE_NUMBER="01_09-08-2018"
+INSTALLATION_PATH="$PWD/$RELEASE_NUMBER"
 
 printf "\n%s\n" "****** Setting env variables... ******"
 
 
 
-env_var_needed=(MANPATH INFOPATH SHARE_PATH HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE HTSLIB_DIR KENT_SRC MACHTYPE PERL5LIB PATH)
+ENV_VAR_NEEDED=(MANPATH INFOPATH SHARE_PATH HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE HTSLIB_DIR KENT_SRC MACHTYPE PERL5LIB PATH)
 
 
 
 #Make a copy of all the current required env variables so that they can be restored later if required
-for var in "${env_var_needed[@]}"; do
+for var in "${ENV_VAR_NEEDED[@]}"; do
      eval "${var}_tmp=\$$var" 
 done
 
 
 
 #Unset the current required env variables
-for var in "${env_var_needed[@]}"; do
+for var in "${ENV_VAR_NEEDED[@]}"; do
      unset $var;
 done
 
@@ -66,7 +66,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
 else
 
 #Restore all the previous env variables which were unset
-   for var in "${env_var_needed[@]}"; do
+   for var in "${ENV_VAR_NEEDED[@]}"; do
      eval "export ${var}=\$${var}_tmp"
    done
 
