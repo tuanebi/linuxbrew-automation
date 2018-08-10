@@ -2,7 +2,7 @@
 
 
 
-release_number="2018_08_08_2"
+release_number="01_09-08-2018"
 INSTALLATION_PATH="$PWD/$release_number"
 
 printf "\n%s\n" "****** Setting env variables... ******"

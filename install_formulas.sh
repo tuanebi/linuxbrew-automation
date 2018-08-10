@@ -51,18 +51,30 @@ brew tap ensembl/moonshine && \
 brew tap ensembl/cask
 
 
-#brew install ensembl/cask/web-base
+brew install ensembl/cask/web-base
 
 
 #Remove binaries which are symlinked to system binaries and linking them back to brew binaries. We need to find these binaries dynamically rather than hardcoding. Patchelf is linking them to system binaries?
 
-#rm  ${INSTALLATION_PATH}/linuxbrew/bin/g++-4.8 ${INSTALLATION_PATH}/linuxbrew/bin/gcc-4.8  ${INSTALLATION_PATH}/linuxbrew/bin/gfortran-4.8
-#ln -s ${INSTALLATION_PATH}/linuxbrew/bin/g++ ${INSTALLATION_PATH}/linuxbrew/bin/g++-4.8
-#ln -s ${INSTALLATION_PATH}/linuxbrew/bin/gcc ${INSTALLATION_PATH}/linuxbrew/bin/gcc-4.8
-#ln -s ${INSTALLATION_PATH}/linuxbrew/bin/gfortran ${INSTALLATION_PATH}/linuxbrew/bin/gfortran-4.8
+rm  ${INSTALLATION_PATH}/linuxbrew/bin/g++-4.8 ${INSTALLATION_PATH}/linuxbrew/bin/gcc-4.8  ${INSTALLATION_PATH}/linuxbrew/bin/gfortran-4.8
+ln -s ${INSTALLATION_PATH}/linuxbrew/bin/g++ ${INSTALLATION_PATH}/linuxbrew/bin/g++-4.8
+ln -s ${INSTALLATION_PATH}/linuxbrew/bin/gcc ${INSTALLATION_PATH}/linuxbrew/bin/gcc-4.8
+ln -s ${INSTALLATION_PATH}/linuxbrew/bin/gfortran ${INSTALLATION_PATH}/linuxbrew/bin/gfortran-4.8
 
 
 #brew install ensembl/cask/web-libsforcpanm
 #brew install ensembl/cask/web-gui
 #brew install ensembl/cask/web-bifo
+#brew install ensembl/cask/web-internal
+
+
+
+
+#hdf5@1.8(hal dependency) is keg-only and hence linking is not done. Force link it.
+brew link --force hdf5@1.8
+
+
+
+
+
 
