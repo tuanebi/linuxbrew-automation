@@ -30,5 +30,11 @@ source ./set_env.sh
 ./install_formulas.sh 
 
 
+#Install Perl and Python packages
+./install_modules.sh
+
+
+#Install hubcheck, fonts and FileChameleon
+./misc.sh
 
 

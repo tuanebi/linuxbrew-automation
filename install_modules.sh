@@ -40,7 +40,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
    printf "\n%s\n" "****** Patching Bio-BigFile with ensweb Kent patches ******"
  
    # Patch Bio-BigFile in line with Kent patches
-   curl https://cpan.metacpan.org/authors/id/L/LD/LDS/Bio-BigFile-1.07.tar.gz --output Bio-BigFile-1.07.tar.g
+   curl https://cpan.metacpan.org/authors/id/L/LD/LDS/Bio-BigFile-1.07.tar.gz --output Bio-BigFile-1.07.tar.gz
    tar xvzf Bio-BigFile-1.07.tar.gz 
    pushd Bio-BigFile-1.07/
    curl -s https://raw.githubusercontent.com/Ensembl/homebrew-web/master/patches/kent/perl.patch > perl.patch

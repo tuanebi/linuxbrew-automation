@@ -62,10 +62,10 @@ ln -s ${INSTALLATION_PATH}/linuxbrew/bin/gcc ${INSTALLATION_PATH}/linuxbrew/bin/
 ln -s ${INSTALLATION_PATH}/linuxbrew/bin/gfortran ${INSTALLATION_PATH}/linuxbrew/bin/gfortran-4.8
 
 
-#brew install ensembl/cask/web-libsforcpanm
-#brew install ensembl/cask/web-gui
-#brew install ensembl/cask/web-bifo
-#brew install ensembl/cask/web-internal
+brew install ensembl/cask/web-libsforcpanm
+brew install ensembl/cask/web-gui
+brew install ensembl/cask/web-bifo
+brew install ensembl/cask/web-internal
 
 
 
