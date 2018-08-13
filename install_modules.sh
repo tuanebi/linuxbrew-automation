@@ -36,12 +36,21 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
    pushd $INSTALLATION_PATH/tmp
 
 
+   printf "\n%s\n" "****** Installing Perl modules... ******"
+
+   #Install all the perl dependencies
+   curl -s https://raw.githubusercontent.com/Ensembl/cpanfiles/master/web/cpanfile > cpanfile
+   
+   sed -i '/Bio::DB::BigFile/d' cpanfile 
+
+   cpanm --installdeps --with-recommends --notest --cpanfile cpanfile .
+
 
    printf "\n%s\n" "****** Patching Bio-BigFile with ensweb Kent patches ******"
- 
+
    # Patch Bio-BigFile in line with Kent patches
    curl https://cpan.metacpan.org/authors/id/L/LD/LDS/Bio-BigFile-1.07.tar.gz --output Bio-BigFile-1.07.tar.gz
-   tar xvzf Bio-BigFile-1.07.tar.gz 
+   tar xvzf Bio-BigFile-1.07.tar.gz
    pushd Bio-BigFile-1.07/
    curl -s https://raw.githubusercontent.com/Ensembl/homebrew-web/master/patches/kent/perl.patch > perl.patch
    patch -p2 < perl.patch
@@ -52,11 +61,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
    popd
 
 
-   printf "\n%s\n" "****** Installing Perl modules... ******"
 
-   #Install all the perl dependencies
-   curl -s https://raw.githubusercontent.com/Ensembl/cpanfiles/master/web/cpanfile > cpanfile
-   cpanm --installdeps --with-recommends --notest --cpanfile cpanfile .
 
    printf "\n%s\n" "****** Installed Perl modules... ******"
 
