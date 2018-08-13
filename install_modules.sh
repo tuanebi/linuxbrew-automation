@@ -60,7 +60,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
    ./Build install
    popd
 
-
+   cpanm HTML::Formatter
 
 
    printf "\n%s\n" "****** Installed Perl modules... ******"
