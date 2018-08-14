@@ -35,7 +35,7 @@ export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 env_variables=$(cat << EOF
 export INSTALLATION_PATH="$INSTALLATION_PATH"
-export PATH="$INSTALLATION_PATH/paths/bin:$INSTALLATION_PATH/linuxbrew/bin:$INSTALLATION_PATH/linuxbrew/sbin:$PATH"
+export PATH="$INSTALLATION_PATH/paths:$INSTALLATION_PATH/linuxbrew/bin:$INSTALLATION_PATH/linuxbrew/sbin:$PATH"
 export MANPATH="$INSTALLATION_PATH/linuxbrew/share/man:$MANPATH"
 export INFOPATH="$INSTALLATION_PATH/linuxbrew/share/info:$INFOPATH"
 
