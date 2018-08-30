@@ -73,7 +73,7 @@ ln -s $INSTALLATION_PATH/linuxbrew/opt/crossmap/bin/CrossMap.py $SHARE_PATH/Cros
 ln -s $INSTALLATION_PATH/linuxbrew/opt/kent/bin/wigToBigWig $SHARE_PATH/wigToBigWig
 ln -s $INSTALLATION_PATH/linuxbrew/opt/kent/bin/bigWigToWig $SHARE_PATH/bigWigToWig
 ln -s $INSTALLATION_PATH/linuxbrew/opt/htslib/bin/bgzip $SHARE_PATH/bgzip
-ln -s $INSTALLATION_PATH/linuxbrew/opt/samtools/bin/samtools $SHARE_PATH/samtoools
+ln -s $INSTALLATION_PATH/linuxbrew/opt/samtools/bin/samtools $SHARE_PATH/samtools
 ln -s $INSTALLATION_PATH/linuxbrew/opt/htslib/bin/tabix $SHARE_PATH/tabix
 
 ln -s $INSTALLATION_PATH/1000G-tools/vcftools/lib/perl5/site_perl/ $SHARE_PATH/vcftools_perl_lib
