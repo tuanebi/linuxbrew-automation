@@ -39,7 +39,7 @@ export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 
 
-env_variables=$(cat << EOF
+ENV_VARIABLES=$(cat << EOF
 export INSTALLATION_PATH="$INSTALLATION_PATH"
 export PATH="$INSTALLATION_PATH/paths:$INSTALLATION_PATH/linuxbrew/bin:$INSTALLATION_PATH/linuxbrew/sbin:$PATH"
 export MANPATH="$INSTALLATION_PATH/linuxbrew/share/man:$MANPATH"
@@ -61,12 +61,12 @@ export MACHTYPE=x86_64
 EOF
 )
 
-printf "%s\n\n" "$env_variables"
+printf "%s\n\n" "$ENV_VARIABLES"
 
 read -p "OK to set above env variables?: "  -n 1 -r
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-   echo "$env_variables" > $HOME/.bashrc_linuxbrew
+   echo "$ENV_VARIABLES" > $HOME/.bashrc_linuxbrew
    source $HOME/.bashrc_linuxbrew
    printf "\n%s\n" "****** Done setting env variables... ******"
 else
