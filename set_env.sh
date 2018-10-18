@@ -2,8 +2,14 @@
 
 
 
-RELEASE_NUMBER="01_09-08-2018"
-INSTALLATION_PATH="$PWD/$RELEASE_NUMBER"
+
+
+if [ "$1" != "" ]; then
+    INSTALLATION_PATH="$1"
+else
+    INSTALLATION_PATH="$PWD/$(date +%Y-%m-%d)"
+fi
+
 
 printf "\n%s\n" "****** Setting env variables... ******"
 
