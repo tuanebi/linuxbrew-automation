@@ -1,41 +1,31 @@
 #!/bin/bash
 
-
-
-
-
 if [ "$1" != "" ]; then
     INSTALLATION_PATH="$1"
 else
     INSTALLATION_PATH="$PWD/$(date +%Y-%m-%d)"
 fi
 
-
 printf "\n%s\n" "****** Setting env variables... ******"
-
 
 
 ENV_VAR_NEEDED=(MANPATH INFOPATH SHARE_PATH HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE HTSLIB_DIR KENT_SRC MACHTYPE PERL5LIB PATH)
 
 
-
-#Make a copy of all the current required env variables so that they can be restored later if required
+# Make a copy of all the current required env variables so that they can be restored later if required
 for var in "${ENV_VAR_NEEDED[@]}"; do
      eval "${var}_tmp=\$$var" 
 done
 
 
-
-#Unset the current required env variables
+# Unset the current required env variables
 for var in "${ENV_VAR_NEEDED[@]}"; do
      unset $var;
 done
 
 
-#Set PATH to minimal default
+# Set PATH to minimal default
 export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
-
-
 
 
 
@@ -44,7 +34,6 @@ export INSTALLATION_PATH="$INSTALLATION_PATH"
 export PATH="$INSTALLATION_PATH/paths:$INSTALLATION_PATH/linuxbrew/bin:$INSTALLATION_PATH/linuxbrew/sbin:$PATH"
 export MANPATH="$INSTALLATION_PATH/linuxbrew/share/man:$MANPATH"
 export INFOPATH="$INSTALLATION_PATH/linuxbrew/share/info:$INFOPATH"
-
 export SHARE_PATH="$INSTALLATION_PATH/paths"
 
 #Required for repeatmasker
@@ -63,15 +52,32 @@ EOF
 
 printf "%s\n\n" "$ENV_VARIABLES"
 
+
+
+
 read -p "OK to set above env variables?: "  -n 1 -r
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
+  
+   
+   # Make a backup of existing bashrc_linuxbrew file
+   [ -f "$HOME/.bashrc_linuxbrew" ] && mv $HOME/.bashrc_linuxbrew $HOME/.bashrc_linuxbrew.$(date +%Y-%m-%d-%H:%M)
+ 
+   # Write all the required ENV variables to a new bashrc_linuxbrew file
    echo "$ENV_VARIABLES" > $HOME/.bashrc_linuxbrew
-   source $HOME/.bashrc_linuxbrew
+   
+   # Remove all the lines from bashrc file referencing "bashrc_linuxbrew". Following line also makes a backup of bashrc file
+   sed -i.$(date +%Y-%m-%d-%H:%M) '/bashrc_linuxbrew/d' $HOME/.bashrc
+
+   # Now append and make bashrc source newly generated bashrc_linuxbrew file
+   echo 'source $HOME/.bashrc_linuxbrew' >> $HOME/.bashrc
+   source $HOME/.bashrc
+
    printf "\n%s\n" "****** Done setting env variables... ******"
+
 else
 
-#Restore all the previous env variables which were unset
+# Restore all the previous env variables which were unset
    for var in "${ENV_VAR_NEEDED[@]}"; do
      eval "export ${var}=\$${var}_tmp"
    done
