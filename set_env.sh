@@ -28,7 +28,7 @@ function create_environment {
    echo 'source $HOME/.bashrc_linuxbrew' >> $HOME/.bashrc
    source $HOME/.bashrc
 
-   print_this "Done setting env variables..."
+   print_this "Done setting environment variables..."
 
 }   # end of create_environment 
 
@@ -58,19 +58,19 @@ fi
 
 
 
-print_this "Setting env variables..."
+print_this "Setting environment variables..."
 
 
 ENV_VAR_NEEDED=(MANPATH INFOPATH SHARED_PATH HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE HTSLIB_DIR KENT_SRC MACHTYPE PERL5LIB PATH)
 
 
-# Make a copy of all the current required env variables so that they can be restored later if required
+# Make a copy of all the current required environment variables so that they can be restored later if required
 for var in "${ENV_VAR_NEEDED[@]}"; do
    eval "${var}_tmp=\$$var" 
 done
 
 
-# Unset the current required env variables
+# Unset the current required environment variables
 for var in "${ENV_VAR_NEEDED[@]}"; do
    unset $var;
 done
@@ -112,17 +112,17 @@ if [ ! -z "$DISABLE_USER_INPUT_PROMPTS" ]; then
 
 else 
 
-   read -p "OK to set above env variables?: "  -n 1 -r
+   read -p "OK to set above environment variables?: "  -n 1 -r
    echo
 
    case $REPLY in
         [Yy]* ) 	create_environment;;
 
-        * )             # Restore all the previous env variables which were unset
+        * )             # Restore all the previous environment variables which were unset
       			for var in "${ENV_VAR_NEEDED[@]}"; do
         		   eval "export ${var}=\$${var}_tmp"
       			done
-      			print_this "New env variables not set"
+      			print_this "New environment variables not set"
       			return;;
 
    esac
