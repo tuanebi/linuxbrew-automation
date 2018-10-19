@@ -102,22 +102,18 @@ else
    read -p "OK to set above env variables?: "  -n 1 -r
    echo
 
-   if [[ $REPLY =~ ^[Yy]$ ]]; then
+   case $REPLY in
+        [Yy]* ) 	create_environment;;
 
-      create_environment
+        * )             # Restore all the previous env variables which were unset
+      			for var in "${ENV_VAR_NEEDED[@]}"; do
+        		   eval "export ${var}=\$${var}_tmp"
+      			done
+      			print_this "New env variables not set"
+      			return;;
 
-   else
+   esac
 
-      # Restore all the previous env variables which were unset
-      for var in "${ENV_VAR_NEEDED[@]}"; do
-        eval "export ${var}=\$${var}_tmp"
-      done
-
-      print_this "New env variables not set"
-
-      return
- 
-   fi
 
 fi
 
