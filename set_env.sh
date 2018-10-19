@@ -10,7 +10,7 @@ function print_this {
    printf "%s" "$@"; echo
    printf '%.0s*' {1..100}; echo
 
-}
+}   # end of print_this
 
 
 function create_environment {
@@ -30,11 +30,24 @@ function create_environment {
 
    print_this "Done setting env variables..."
 
-}   # end of system_info
+}   # end of create_environment 
 
 
 
 ##### Functions End
+
+
+
+
+
+
+######################################################################################################################
+#
+#
+#                            CREATE ENVIRONMENT FOR BREW INSTALLATION
+#
+#
+######################################################################################################################
 
 
 if [ "$1" != "" ]; then
@@ -118,5 +131,55 @@ else
 fi
 
 
+
+
+
+
+######################################################################################################################
+#
+#
+#                                     INSTALL BASE LIBRARIES
+#
+#
+######################################################################################################################
+
+
+
+
+
+if [ -z "$INSTALLATION_PATH" ]; then
+    print_this "INSTALLATION_PATH is not set. Exiting!"
+    return
+fi
+
+
+
+
+if [ -z "$DISABLE_USER_INPUT_PROMPTS" ]; then
+
+
+   if [ -d "$INSTALLATION_PATH/linuxbrew" ]; then
+      read -p "Looks like linuxbrew directory already exists. Continue installing into the existing directory?: "  -n 1 -r
+      echo
+
+      if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+         print_this "Aborting!"
+         return
+      fi
+
+   fi
+
+
+   read -p "Linuxbrew will be installed into $INSTALLATION_PATH. Continue?: "  -n 1 -r
+
+   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+       print_this "Aborting!"
+       return
+   fi
+
+fi
+
+
+[ -d "$INSTALLATION_PATH" ] || mkdir $INSTALLATION_PATH
 
 
