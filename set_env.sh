@@ -93,7 +93,7 @@ EOF
 print_this "$ENV_VARIABLES"
 
 
-if [ -z "$DISABLE_USER_INPUT_PROMPTS" ]; then
+if [ ! -z "$DISABLE_USER_INPUT_PROMPTS" ]; then
    
    create_environment
 
