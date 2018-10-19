@@ -33,6 +33,38 @@ function create_environment {
 }   # end of create_environment 
 
 
+function backup_environment_variables {
+
+   # Make a copy of all the current required environment variables so that they can be restored later if required
+   for var in "${ENV_VAR_NEEDED[@]}"; do
+      eval "${var}_tmp=\$$var"
+      unset $var;
+      #eval "echo \$$var"
+      #eval "echo \$${var}_tmp"
+   done
+
+
+   print_this "Made a backup of current environment variables"
+
+   # Set PATH to minimal default
+   export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
+
+}   # End of backup_environment_variables
+
+
+
+
+function restore_environment_variables_from_backup {
+
+   # Restore all the previous environment variables which were unset
+   for var in "${ENV_VAR_NEEDED[@]}"; do
+      eval "export ${var}=\$${var}_tmp"
+   done
+   
+   print_this "Previous environment variables restored"
+
+}  # End of restore_environment_variables_from_backup 
+
 
 ##### Functions End
 
@@ -57,28 +89,11 @@ else
 fi
 
 
-
-print_this "Setting environment variables..."
-
-
 ENV_VAR_NEEDED=(MANPATH INFOPATH SHARED_PATH HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE HTSLIB_DIR KENT_SRC MACHTYPE PERL5LIB PATH)
 
+backup_environment_variables
 
-# Make a copy of all the current required environment variables so that they can be restored later if required
-for var in "${ENV_VAR_NEEDED[@]}"; do
-   eval "${var}_tmp=\$$var" 
-done
-
-
-# Unset the current required environment variables
-for var in "${ENV_VAR_NEEDED[@]}"; do
-   unset $var;
-done
-
-
-# Set PATH to minimal default
-export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
-
+print_this "Setting new environment variables..."
 
 
 ENV_VARIABLES=$(cat << EOF
@@ -118,19 +133,13 @@ else
    case $REPLY in
         [Yy]* ) 	create_environment;;
 
-        * )             # Restore all the previous environment variables which were unset
-      			for var in "${ENV_VAR_NEEDED[@]}"; do
-        		   eval "export ${var}=\$${var}_tmp"
-      			done
-      			print_this "New environment variables not set"
+        * )             restore_environment_variables_from_backup
       			return;;
 
    esac
 
 
 fi
-
-
 
 
 
@@ -163,6 +172,7 @@ if [ -z "$DISABLE_USER_INPUT_PROMPTS" ]; then
       echo
 
       if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+         restore_environment_variables_from_backup
          print_this "Aborting!"
          return
       fi
@@ -173,6 +183,7 @@ if [ -z "$DISABLE_USER_INPUT_PROMPTS" ]; then
    read -p "Linuxbrew will be installed into $INSTALLATION_PATH. Continue?: "  -n 1 -r
 
    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+       restore_environment_variables_from_backup
        print_this "Aborting!"
        return
    fi
