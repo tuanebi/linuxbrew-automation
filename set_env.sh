@@ -13,7 +13,7 @@ function print_this {
 }   # end of print_this
 
 
-function create_environment {
+function create_new_environment {
 
    # Make a backup of existing bashrc_linuxbrew file
    [ -f "$HOME/.bashrc_linuxbrew" ] && mv $HOME/.bashrc_linuxbrew $HOME/.bashrc_linuxbrew.$(date +%Y-%m-%d-%H:%M)
@@ -30,7 +30,7 @@ function create_environment {
 
    print_this "Done setting environment variables..."
 
-}   # end of create_environment 
+}   # end of create_new_environment 
 
 
 function backup_environment_variables {
@@ -38,21 +38,27 @@ function backup_environment_variables {
    # Make a copy of all the current required environment variables so that they can be restored later if required
    for var in "${ENV_VAR_NEEDED[@]}"; do
       eval "${var}_tmp=\$$var"
-      unset $var;
       #eval "echo \$$var"
       #eval "echo \$${var}_tmp"
    done
 
-
    print_this "Made a backup of current environment variables"
-
-   # Set PATH to minimal default
-   export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 }   # End of backup_environment_variables
 
 
 
+function unset_current_environment_variables{
+
+   # Unset the current required environment variables	
+   for var in "${ENV_VAR_NEEDED[@]}"; do	
+     unset $var;	
+   done
+
+   # Set PATH to minimal default
+   export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
+
+}   # End of unset_current_environment_variables
 
 function restore_environment_variables_from_backup {
 
@@ -123,7 +129,7 @@ print_this "$ENV_VARIABLES"
 
 if [ ! -z "$DISABLE_USER_INPUT_PROMPTS" ]; then
    
-   create_environment
+   create_new_environment
 
 else 
 
@@ -131,7 +137,8 @@ else
    echo
 
    case $REPLY in
-        [Yy]* ) 	create_environment;;
+        [Yy]* ) 	unset_current_environment_variables
+			create_new_environment;;
 
         * )             restore_environment_variables_from_backup
       			return;;
