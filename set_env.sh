@@ -1,12 +1,51 @@
 #!/bin/bash
 
+
+
+##### Functions start
+
+function print_this {
+
+   printf '%.0s*' {1..100}; echo
+   printf "%s" "$@"; echo
+   printf '%.0s*' {1..100}; echo
+
+}
+
+
+function create_environment {
+
+   # Make a backup of existing bashrc_linuxbrew file
+   [ -f "$HOME/.bashrc_linuxbrew" ] && mv $HOME/.bashrc_linuxbrew $HOME/.bashrc_linuxbrew.$(date +%Y-%m-%d-%H:%M)
+
+   # Write all the required ENV variables to a new bashrc_linuxbrew file
+   echo "$ENV_VARIABLES" > $HOME/.bashrc_linuxbrew
+
+   # Remove all the lines from bashrc file referencing "bashrc_linuxbrew". Following line also makes a backup of bashrc file
+   sed -i.$(date +%Y-%m-%d-%H:%M) '/bashrc_linuxbrew/d' $HOME/.bashrc
+
+   # Now append and make bashrc source newly generated bashrc_linuxbrew file
+   echo 'source $HOME/.bashrc_linuxbrew' >> $HOME/.bashrc
+   source $HOME/.bashrc
+
+   print_this "Done setting env variables..."
+
+}   # end of system_info
+
+
+
+##### Functions End
+
+
 if [ "$1" != "" ]; then
-    INSTALLATION_PATH="$1"
+   INSTALLATION_PATH="$1"
 else
-    INSTALLATION_PATH="$PWD/$(date +%Y-%m-%d)"
+   INSTALLATION_PATH="$PWD/$(date +%Y-%m-%d)"
 fi
 
-printf "\n%s\n" "****** Setting env variables... ******"
+
+
+print_this "Setting env variables..."
 
 
 ENV_VAR_NEEDED=(MANPATH INFOPATH SHARED_PATH HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE HTSLIB_DIR KENT_SRC MACHTYPE PERL5LIB PATH)
@@ -14,13 +53,13 @@ ENV_VAR_NEEDED=(MANPATH INFOPATH SHARED_PATH HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE 
 
 # Make a copy of all the current required env variables so that they can be restored later if required
 for var in "${ENV_VAR_NEEDED[@]}"; do
-     eval "${var}_tmp=\$$var" 
+   eval "${var}_tmp=\$$var" 
 done
 
 
 # Unset the current required env variables
 for var in "${ENV_VAR_NEEDED[@]}"; do
-     unset $var;
+   unset $var;
 done
 
 
@@ -50,40 +89,38 @@ export MACHTYPE=x86_64
 EOF
 )
 
-printf "%s\n\n" "$ENV_VARIABLES"
+
+print_this "$ENV_VARIABLES"
 
 
-
-
-read -p "OK to set above env variables?: "  -n 1 -r
-
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-  
+if [ -z "$DISABLE_USER_INPUT_PROMPTS" ]; then
    
-   # Make a backup of existing bashrc_linuxbrew file
-   [ -f "$HOME/.bashrc_linuxbrew" ] && mv $HOME/.bashrc_linuxbrew $HOME/.bashrc_linuxbrew.$(date +%Y-%m-%d-%H:%M)
+   create_environment
+
+else 
+
+   read -p "OK to set above env variables?: "  -n 1 -r
+   echo
+
+   if [[ $REPLY =~ ^[Yy]$ ]]; then
+
+      create_environment
+
+   else
+
+      # Restore all the previous env variables which were unset
+      for var in "${ENV_VAR_NEEDED[@]}"; do
+        eval "export ${var}=\$${var}_tmp"
+      done
+
+      print_this "New env variables not set"
+
+      return
  
-   # Write all the required ENV variables to a new bashrc_linuxbrew file
-   echo "$ENV_VARIABLES" > $HOME/.bashrc_linuxbrew
-   
-   # Remove all the lines from bashrc file referencing "bashrc_linuxbrew". Following line also makes a backup of bashrc file
-   sed -i.$(date +%Y-%m-%d-%H:%M) '/bashrc_linuxbrew/d' $HOME/.bashrc
+   fi
 
-   # Now append and make bashrc source newly generated bashrc_linuxbrew file
-   echo 'source $HOME/.bashrc_linuxbrew' >> $HOME/.bashrc
-   source $HOME/.bashrc
-
-   printf "\n%s\n" "****** Done setting env variables... ******"
-
-else
-
-# Restore all the previous env variables which were unset
-   for var in "${ENV_VAR_NEEDED[@]}"; do
-     eval "export ${var}=\$${var}_tmp"
-   done
-
-   printf "\n%s\n" "****** new env variables not set ******"
-
-   return 
 fi
+
+
+
 
