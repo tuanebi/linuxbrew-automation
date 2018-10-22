@@ -207,3 +207,29 @@ fi
 [ -d "$INSTALLATION_PATH" ] || mkdir $INSTALLATION_PATH
 
 
+print_this "Clonning linuxbrew into $INSTALLATION_PATH/linuxbrew"
+git clone https://github.com/Linuxbrew/brew.git $INSTALLATION_PATH/linuxbrew
+
+
+print_this "Turning off brew analytics"
+brew analytics off
+
+print_this "Clonning 1000G into $INSTALLATION_PATH/1000G-tools"
+git clone https://github.com/Ensembl/1000G-tools.git $INSTALLATION_PATH/1000G-tools
+
+
+print_this "Creating $HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE directory"
+mkdir -p $HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE
+
+
+print_this "Tapping Homebrew External, Homebrew Ensembl, Homebrew Web, Homebrew Moonshine and Homebrew Cask"
+brew tap ensembl/external && \
+brew tap ensembl/ensembl && \
+brew tap ensembl/web && \
+brew tap ensembl/moonshine && \
+brew tap ensembl/cask
+
+
+print_this "Installing Ensembl base libraries"
+brew install ensembl/cask/web-base
+
