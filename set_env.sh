@@ -6,11 +6,40 @@
 
 function print_this {
 
-   printf '%.0s*' {1..100}; echo
+   printf '%.0s*' {1..125}; echo
    printf "%s" "$@"; echo
-   printf '%.0s*' {1..100}; echo
+   printf '%.0s*' {1..125}; echo
 
 }   # end of print_this
+
+
+function backup_environment_variables {
+
+   # Make a copy of all the current required environment variables so that they can be restored later if required
+   for var in "${ENV_VAR_NEEDED[@]}"; do
+      eval "${var}_tmp=\$$var"
+      #eval "echo \$$var"
+      #eval "echo \$${var}_tmp"
+   done
+
+   print_this "Made a backup of current environment variables"
+
+}   # End of backup_environment_variables
+
+
+
+function unset_current_environment_variables {
+
+   # Unset the current required environment variables
+   for var in "${ENV_VAR_NEEDED[@]}"; do
+     unset $var;
+   done
+
+   # Set PATH to minimal default
+   export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
+
+}   # End of unset_current_environment_variables
+
 
 
 function create_new_environment {
@@ -33,32 +62,6 @@ function create_new_environment {
 }   # end of create_new_environment 
 
 
-function backup_environment_variables {
-
-   # Make a copy of all the current required environment variables so that they can be restored later if required
-   for var in "${ENV_VAR_NEEDED[@]}"; do
-      eval "${var}_tmp=\$$var"
-      #eval "echo \$$var"
-      #eval "echo \$${var}_tmp"
-   done
-
-   print_this "Made a backup of current environment variables"
-
-}   # End of backup_environment_variables
-
-
-
-function unset_current_environment_variables{
-
-   # Unset the current required environment variables	
-   for var in "${ENV_VAR_NEEDED[@]}"; do	
-     unset $var;	
-   done
-
-   # Set PATH to minimal default
-   export PATH="/usr/local/bin:/bin:/usr/bin:/usr/local/sbin:/usr/sbin:/sbin"
-
-}   # End of unset_current_environment_variables
 
 function restore_environment_variables_from_backup {
 
@@ -66,8 +69,13 @@ function restore_environment_variables_from_backup {
    for var in "${ENV_VAR_NEEDED[@]}"; do
       eval "export ${var}=\$${var}_tmp"
    done
+
+   #######################################################################
+   #Should we add logic to restore bashrc and bashrc_linuxbrew file here?#
+   #######################################################################
+
    
-   print_this "Previous environment variables restored"
+   print_this "Previous environment variables restored. Please restore bashrc and bashrc_linuxbrew files from backup."
 
 }  # End of restore_environment_variables_from_backup 
 
@@ -101,19 +109,18 @@ backup_environment_variables
 
 print_this "Setting new environment variables..."
 
-
 ENV_VARIABLES=$(cat << EOF
 export INSTALLATION_PATH="$INSTALLATION_PATH"
-export PATH="$INSTALLATION_PATH/paths:$INSTALLATION_PATH/linuxbrew/bin:$INSTALLATION_PATH/linuxbrew/sbin:$PATH"
-export MANPATH="$INSTALLATION_PATH/linuxbrew/share/man:$MANPATH"
-export INFOPATH="$INSTALLATION_PATH/linuxbrew/share/info:$INFOPATH"
+export PATH="$INSTALLATION_PATH/paths:$INSTALLATION_PATH/linuxbrew/bin:$INSTALLATION_PATH/linuxbrew/sbin:\$PATH"
+export MANPATH="$INSTALLATION_PATH/linuxbrew/share/man:\$MANPATH"
+export INFOPATH="$INSTALLATION_PATH/linuxbrew/share/info:\$INFOPATH"
 export SHARED_PATH="$INSTALLATION_PATH/paths"
 
 #Required for repeatmasker
 export HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE="$INSTALLATION_PATH/ENSEMBL_MOONSHINE_ARCHIVE"
 
 #Add bioperl to PERL5LIB
-export PERL5LIB="$PERL5LIB:$INSTALLATION_PATH/linuxbrew/opt/bioperl-169/libexec"
+export PERL5LIB="\$PERL5LIB:$INSTALLATION_PATH/linuxbrew/opt/bioperl-169/libexec"
 
 # Setup Perl library dependencies
 export HTSLIB_DIR="$INSTALLATION_PATH/linuxbrew/opt/htslib"
@@ -136,15 +143,13 @@ else
    read -p "OK to set above environment variables?: "  -n 1 -r
    echo
 
-   case $REPLY in
-        [Yy]* ) 	unset_current_environment_variables
-			create_new_environment;;
-
-        * )             restore_environment_variables_from_backup
-      			return;;
-
-   esac
-
+   if [[ $REPLY =~ ^[Yy]$ ]]; then
+      unset_current_environment_variables
+      create_new_environment
+   else
+      print_this "Aborting!"
+      return
+   fi
 
 fi
 
@@ -188,6 +193,7 @@ if [ -z "$DISABLE_USER_INPUT_PROMPTS" ]; then
 
 
    read -p "Linuxbrew will be installed into $INSTALLATION_PATH. Continue?: "  -n 1 -r
+   echo
 
    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
        restore_environment_variables_from_backup
