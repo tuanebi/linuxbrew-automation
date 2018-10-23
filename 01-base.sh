@@ -103,6 +103,18 @@ else
 fi
 
 
+# ENSEMBL_DISABLE_USER_INPUT_PROMPTS is for docker installations. In case of docker installations, we need to install linuxbrew under .linuxbrew dir for brew to install packages from bottles rather than falling back to installing from source for a *few packages*.
+#For more info, see: https://github.com/Linuxbrew/brew/wiki/FAQ
+
+if [ ! -z "$ENSEMBL_DISABLE_USER_INPUT_PROMPTS" ]; then
+   ENSEMBL_LINUXBREW_DIR="$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/.linuxbrew"
+else
+   ENSEMBL_LINUXBREW_DIR="$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/linuxbrew"
+fi
+
+
+
+
 ENV_VAR_NEEDED=(MANPATH INFOPATH SHARED_PATH HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE HTSLIB_DIR KENT_SRC MACHTYPE PERL5LIB PATH)
 
 backup_environment_variables
@@ -111,6 +123,7 @@ print_this "Setting new environment variables..."
 
 ENV_VARIABLES=$(cat << EOF
 export ENSEMBL_SOFTWARE_DEPENDENCIES_DIR="$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR"
+export ENSEMBL_LINUXBREW_DIR="$ENSEMBL_LINUXBREW_DIR"
 export PATH="$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/paths:$ENSEMBL_LINUXBREW_DIR/bin:$ENSEMBL_LINUXBREW_DIR/sbin:\$PATH"
 export MANPATH="$ENSEMBL_LINUXBREW_DIR/share/man:\$MANPATH"
 export INFOPATH="$ENSEMBL_LINUXBREW_DIR/share/info:\$INFOPATH"
