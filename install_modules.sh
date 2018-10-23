@@ -7,8 +7,8 @@ ENSEMBL_PYTHON_REQUIREMENTS="https://raw.githubusercontent.com/Ensembl/python-re
 
 
 
-if [[ -z $INSTALLATION_PATH || ! -d $INSTALLATION_PATH ]]; then
-   printf "\n%s\n" "****** INSTALLATION_PATH is either not set or $INSTALLATION_PATH directory is empty ******"
+if [[ -z $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR || ! -d $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR ]]; then
+   printf "\n%s\n" "****** ENSEMBL_SOFTWARE_DEPENDENCIES_DIR is either not set or $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR directory is empty ******"
    return
 elif [[ -z $KENT_SRC || ! -d $KENT_SRC  ]]; then
    printf "\n%s\n" "****** KENT_SRC is either not set or KENT_SRC directory is empty ******"
@@ -22,18 +22,18 @@ fi
 
 printf "\n%s\n%s\n" $ENSEMBL_PERL_MODULES $ENSEMBL_PYTHON_REQUIREMENTS
 
-read -p "Perl modules and Python packages from the above files will be installed into $INSTALLATION_PATH build. Continue?: "  -n 1 -r
+read -p "Perl modules and Python packages from the above files will be installed into $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR build. Continue?: "  -n 1 -r
 
 if [[ $REPLY =~ ^[Yy]$ ]]; then
 
 
 
-   [ -d "$INSTALLATION_PATH/tmp" ] || mkdir $INSTALLATION_PATH/tmp
+   [ -d "$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/tmp" ] || mkdir $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/tmp
    
    printf "\n"
 
 
-   pushd $INSTALLATION_PATH/tmp
+   pushd $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/tmp
 
 
    printf "\n%s\n" "****** Installing Perl modules... ******"

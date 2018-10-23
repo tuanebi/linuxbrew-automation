@@ -4,16 +4,16 @@
 #printf '\n%.0s' {1..5}
 
 
-if [ -z "$INSTALLATION_PATH" ]; then
-  printf "\n\n%s\n\n" "***** INSTALLATION_PATH is not set. Exiting! *****"
+if [ -z "$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR" ]; then
+  printf "\n\n%s\n\n" "***** ENSEMBL_SOFTWARE_DEPENDENCIES_DIR is not set. Exiting! *****"
   exit 1
-elif [ -d "$INSTALLATION_PATH/linuxbrew" ]; then
+elif [ -d "$ENSEMBL_LINUXBREW_DIR" ]; then
   printf "\n\n%s\n\n" "**** Looks like linuxbrew directory already exists. Exiting! *****"
   exit 1
 else
-  read -p "Linuxbrew will be installed into $INSTALLATION_PATH. Continue?: "  -n 1 -r
+  read -p "Linuxbrew will be installed into $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR. Continue?: "  -n 1 -r
   if [[ $REPLY =~ ^[Yy]$ ]]; then
-    [ -d "$INSTALLATION_PATH" ] || mkdir $INSTALLATION_PATH
+    [ -d "$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR" ] || mkdir $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR
   else
     printf "\n\n%s\n\n" "****** Aborting! ******"
     exit 1
@@ -23,22 +23,22 @@ fi
   
 
 
-printf "\n\n%s\n\n" "****** Clonning linuxbrew into $INSTALLATION_PATH/linuxbrew ******"
-git clone https://github.com/Linuxbrew/brew.git $INSTALLATION_PATH/linuxbrew
+printf "\n\n%s\n\n" "****** Clonning linuxbrew into $ENSEMBL_LINUXBREW_DIR ******"
+git clone https://github.com/Linuxbrew/brew.git $ENSEMBL_LINUXBREW_DIR
 
 
 printf "\n\n%s\n\n" "****** Turning off brew analytics ******"
 brew analytics off
 
-printf "\n\n%s\n\n" "****** Clonning 1000G into $INSTALLATION_PATH/1000G-tools ******"
-git clone https://github.com/Ensembl/1000G-tools.git $INSTALLATION_PATH/1000G-tools
+printf "\n\n%s\n\n" "****** Clonning 1000G into $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/1000G-tools ******"
+git clone https://github.com/Ensembl/1000G-tools.git $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/1000G-tools
 
 
 printf "%s\n\n" "****** Creating $HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE dir ******"
 mkdir -p $HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE
 
-#printf "\n\n%s\n" "****** Clonning ensembl git tools into $INSTALLATION_PATH/ensembl-git-tools ******"
-#git clone https://github.com/Ensembl/ensembl-git-tools.git $INSTALLATION_PATH/ensembl-git-tools
+#printf "\n\n%s\n" "****** Clonning ensembl git tools into $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/ensembl-git-tools ******"
+#git clone https://github.com/Ensembl/ensembl-git-tools.git $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/ensembl-git-tools
 
 
 printf "\n\n%s\n\n" "****** Tapping Homebrew External, Homebrew Ensembl, Homebrew Web, Homebrew Moonshine and Homebrew Cask ******"
@@ -56,10 +56,10 @@ brew install ensembl/cask/web-base
 
 #Remove binaries which are symlinked to system binaries and linking them back to brew binaries. We need to find these binaries dynamically rather than hardcoding. Patchelf is linking them to system binaries?
 
-rm  ${INSTALLATION_PATH}/linuxbrew/bin/g++-4.8 ${INSTALLATION_PATH}/linuxbrew/bin/gcc-4.8  ${INSTALLATION_PATH}/linuxbrew/bin/gfortran-4.8
-ln -s ${INSTALLATION_PATH}/linuxbrew/bin/g++ ${INSTALLATION_PATH}/linuxbrew/bin/g++-4.8
-ln -s ${INSTALLATION_PATH}/linuxbrew/bin/gcc ${INSTALLATION_PATH}/linuxbrew/bin/gcc-4.8
-ln -s ${INSTALLATION_PATH}/linuxbrew/bin/gfortran ${INSTALLATION_PATH}/linuxbrew/bin/gfortran-4.8
+rm  ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/linuxbrew/bin/g++-4.8 ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/linuxbrew/bin/gcc-4.8  ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/linuxbrew/bin/gfortran-4.8
+ln -s ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/linuxbrew/bin/g++ ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/linuxbrew/bin/g++-4.8
+ln -s ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/linuxbrew/bin/gcc ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/linuxbrew/bin/gcc-4.8
+ln -s ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/linuxbrew/bin/gfortran ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/linuxbrew/bin/gfortran-4.8
 
 
 brew install ensembl/cask/web-libsforcpanm

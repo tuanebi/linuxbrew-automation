@@ -97,9 +97,9 @@ function restore_environment_variables_from_backup {
 
 
 if [ "$1" != "" ]; then
-   INSTALLATION_PATH="$1"
+   ENSEMBL_SOFTWARE_DEPENDENCIES_DIR="$1"
 else
-   INSTALLATION_PATH="$PWD/$(date +%Y-%m-%d)"
+   ENSEMBL_SOFTWARE_DEPENDENCIES_DIR="$PWD/$(date +%Y-%m-%d)"
 fi
 
 
@@ -110,21 +110,21 @@ backup_environment_variables
 print_this "Setting new environment variables..."
 
 ENV_VARIABLES=$(cat << EOF
-export INSTALLATION_PATH="$INSTALLATION_PATH"
-export PATH="$INSTALLATION_PATH/paths:$INSTALLATION_PATH/linuxbrew/bin:$INSTALLATION_PATH/linuxbrew/sbin:\$PATH"
-export MANPATH="$INSTALLATION_PATH/linuxbrew/share/man:\$MANPATH"
-export INFOPATH="$INSTALLATION_PATH/linuxbrew/share/info:\$INFOPATH"
-export SHARED_PATH="$INSTALLATION_PATH/paths"
+export ENSEMBL_SOFTWARE_DEPENDENCIES_DIR="$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR"
+export PATH="$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/paths:$ENSEMBL_LINUXBREW_DIR/bin:$ENSEMBL_LINUXBREW_DIR/sbin:\$PATH"
+export MANPATH="$ENSEMBL_LINUXBREW_DIR/share/man:\$MANPATH"
+export INFOPATH="$ENSEMBL_LINUXBREW_DIR/share/info:\$INFOPATH"
+export SHARED_PATH="$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/paths"
 
 #Required for repeatmasker
-export HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE="$INSTALLATION_PATH/ENSEMBL_MOONSHINE_ARCHIVE"
+export HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE="$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/ENSEMBL_MOONSHINE_ARCHIVE"
 
 #Add bioperl to PERL5LIB
-export PERL5LIB="\$PERL5LIB:$INSTALLATION_PATH/linuxbrew/opt/bioperl-169/libexec"
+export PERL5LIB="\$PERL5LIB:$ENSEMBL_LINUXBREW_DIR/opt/bioperl-169/libexec"
 
 # Setup Perl library dependencies
-export HTSLIB_DIR="$INSTALLATION_PATH/linuxbrew/opt/htslib"
-export KENT_SRC="$INSTALLATION_PATH/linuxbrew/opt/kent"
+export HTSLIB_DIR="$ENSEMBL_LINUXBREW_DIR/opt/htslib"
+export KENT_SRC="$ENSEMBL_LINUXBREW_DIR/opt/kent"
 export MACHTYPE=x86_64 
 
 EOF
@@ -168,8 +168,8 @@ fi
 
 
 
-if [ -z "$INSTALLATION_PATH" ]; then
-    print_this "INSTALLATION_PATH is not set. Exiting!"
+if [ -z "$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR" ]; then
+    print_this "ENSEMBL_SOFTWARE_DEPENDENCIES_DIR is not set. Exiting!"
     return
 fi
 
@@ -179,7 +179,7 @@ fi
 if [ -z "$DISABLE_USER_INPUT_PROMPTS" ]; then
 
 
-   if [ -d "$INSTALLATION_PATH/linuxbrew" ]; then
+   if [ -d "$ENSEMBL_LINUXBREW_DIR" ]; then
       read -p "Looks like linuxbrew directory already exists. Continue installing into the existing directory?: "  -n 1 -r
       echo
 
@@ -192,7 +192,7 @@ if [ -z "$DISABLE_USER_INPUT_PROMPTS" ]; then
    fi
 
 
-   read -p "Linuxbrew will be installed into $INSTALLATION_PATH. Continue?: "  -n 1 -r
+   read -p "Linuxbrew will be installed into $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR. Continue?: "  -n 1 -r
    echo
 
    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
@@ -204,18 +204,18 @@ if [ -z "$DISABLE_USER_INPUT_PROMPTS" ]; then
 fi
 
 
-[ -d "$INSTALLATION_PATH" ] || mkdir $INSTALLATION_PATH
+[ -d "$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR" ] || mkdir $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR
 
 
-print_this "Clonning linuxbrew into $INSTALLATION_PATH/linuxbrew"
-git clone https://github.com/Linuxbrew/brew.git $INSTALLATION_PATH/linuxbrew
+print_this "Clonning linuxbrew into $ENSEMBL_LINUXBREW_DIR"
+git clone https://github.com/Linuxbrew/brew.git $ENSEMBL_LINUXBREW_DIR
 
 
 print_this "Turning off brew analytics"
 brew analytics off
 
-print_this "Clonning 1000G into $INSTALLATION_PATH/1000G-tools"
-git clone https://github.com/Ensembl/1000G-tools.git $INSTALLATION_PATH/1000G-tools
+print_this "Clonning 1000G into $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/1000G-tools"
+git clone https://github.com/Ensembl/1000G-tools.git $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/1000G-tools
 
 
 print_this "Creating $HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE directory"
