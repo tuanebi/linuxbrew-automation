@@ -205,7 +205,7 @@ if [ -z "$ENSEMBL_DISABLE_USER_INPUT_PROMPTS" ]; then
    fi
 
 
-   read -p "Linuxbrew will be installed into $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR. Continue?: "  -n 1 -r
+   read -p "Linuxbrew will be installed into $ENSEMBL_LINUXBREW_DIR. Continue?: "  -n 1 -r
    echo
 
    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
