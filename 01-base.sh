@@ -103,11 +103,11 @@ else
 fi
 
 
-# ENSEMBL_DISABLE_USER_INPUT_PROMPTS is for docker installations. In case of docker installations, we need to install linuxbrew under .linuxbrew dir for brew to install packages from bottles rather than falling back to installing from source for a *few packages*.
+# IS_A_DOCKER_INSTALL variable is set in the Dockerfile and used while installing libraries using docker. For such docker installations, to avoid build timeout on Docker Hub, we need to install packages under /home/linuxbrew/.linuxbrew directory for brew to install packages from bottles rather than falling back to installing from source for a *few packages*.
 #For more info, see: https://github.com/Linuxbrew/brew/wiki/FAQ
 
-if [ ! -z "$ENSEMBL_DISABLE_USER_INPUT_PROMPTS" ]; then
-   ENSEMBL_LINUXBREW_DIR="$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/.linuxbrew"
+if [ ! -z "$IS_A_DOCKER_INSTALL" ]; then
+   ENSEMBL_LINUXBREW_DIR="/home/linuxbrew/.linuxbrew"
 else
    ENSEMBL_LINUXBREW_DIR="$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/linuxbrew"
 fi
@@ -147,7 +147,7 @@ EOF
 print_this "$ENV_VARIABLES"
 
 
-if [ ! -z "$ENSEMBL_DISABLE_USER_INPUT_PROMPTS" ]; then
+if [ ! -z "$IS_A_DOCKER_INSTALL" ]; then
    
    create_new_environment
 
@@ -189,7 +189,7 @@ fi
 
 
 
-if [ -z "$ENSEMBL_DISABLE_USER_INPUT_PROMPTS" ]; then
+if [ -z "$IS_A_DOCKER_INSTALL" ]; then
 
 
    if [ -d "$ENSEMBL_LINUXBREW_DIR" ]; then
