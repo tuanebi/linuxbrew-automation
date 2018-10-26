@@ -247,6 +247,16 @@ print_this "Installing Ensembl base libraries"
 
 time brew install ensembl/cask/web-base
 
+
+
+
+rm  ${ENSEMBL_LINUXBREW_DIR}/bin/g++-4.8 ${ENSEMBL_LINUXBREW_DIR}/bin/gcc-4.8  ${ENSEMBL_LINUXBREW_DIR}/bin/gfortran-4.8
+ln -s ${ENSEMBL_LINUXBREW_DIR}/bin/g++ ${ENSEMBL_LINUXBREW_DIR}/bin/g++-4.8
+ln -s ${ENSEMBL_LINUXBREW_DIR}/bin/gcc ${ENSEMBL_LINUXBREW_DIR}/bin/gcc-4.8
+ln -s ${ENSEMBL_LINUXBREW_DIR}/bin/gfortran ${ENSEMBL_LINUXBREW_DIR}/bin/gfortran-4.8
+
+
+
 print_this "Installing Ensembl base libraries for cpanm"
 
 time brew install ensembl/cask/web-libsforcpanm
