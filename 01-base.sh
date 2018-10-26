@@ -246,3 +246,5 @@ brew tap ensembl/cask
 print_this "Installing Ensembl base libraries"
 brew install ensembl/cask/web-base
 
+brew install ensembl/cask/web-libsforcpanm
+
