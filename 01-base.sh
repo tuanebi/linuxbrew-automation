@@ -237,11 +237,23 @@ mkdir -p $HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE
 
 print_this "Tapping Homebrew External, Homebrew Ensembl, Homebrew Web, Homebrew Moonshine and Homebrew Cask"
 brew tap ensembl/external && \
-brew tap ensembl/ensembl && \
+#brew tap ensembl/ensembl && \
 brew tap ensembl/web && \
 brew tap ensembl/moonshine && \
 brew tap ensembl/cask
 
+
+######################TEMP################################
+brew tap ensembl/ensembl --full
+cd $(brew --repository ensembl/ensembl)
+git checkout feature/hdf5@1.8.20
+cd -
+
+#brew tap ensembl/cask --full
+#cd $(brew --repository ensembl/cask)
+#git checkout feature/hdf5@1.8.20
+#cd -
+#######################TEMP################################
 
 print_this "Installing Ensembl base libraries"
 
