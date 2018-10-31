@@ -243,7 +243,7 @@ brew tap ensembl/moonshine && \
 brew tap ensembl/cask
 
 
-######################TEMP################################
+###################### TEMP UNTIL DECISION ON UPGRADING HDF5 VERSION IS MADE ################################
 brew tap ensembl/ensembl --full
 cd $(brew --repository ensembl/ensembl)
 git checkout feature/hdf5@1.8.20
@@ -257,15 +257,30 @@ cd -
 
 print_this "Installing Ensembl base libraries"
 
+
+###############################################################
+
+#Crossmap installtion is failing with bottled Python@2
+#Reason:     Bottled python@2 is coming with CC configuration variable with value as 'cc -pthread' rather than 'gcc-5 -pthread'. Python decides on runtime_library_dir_option based on this configuration value. In this case, it is -R for 'cc -pthread'.
+#            But, Linuxbrew uses gcc and this gcc doesnt understand -R option while installing crossmap.
+#See:        https://github.com/python/cpython/blob/bc6f74a520112d25ef40324e3de4e8187ff2835d/Lib/distutils/unixccompiler.py#L213-L244
+#Workaround: Build Python@2 from source first so that it is installed with right configuration values(In our case, CC value as 'gcc-5 -pthread' rather than 'cc -pthread').
+
+if [ ! -z "$IS_A_DOCKER_INSTALL" ]; then brew install python@2 --build-from-source; fi
+
+
+##############################################################
+
+
 time brew install ensembl/cask/web-base
 
 
 
 
-rm  ${ENSEMBL_LINUXBREW_DIR}/bin/g++-4.8 ${ENSEMBL_LINUXBREW_DIR}/bin/gcc-4.8  ${ENSEMBL_LINUXBREW_DIR}/bin/gfortran-4.8
-ln -s ${ENSEMBL_LINUXBREW_DIR}/bin/g++ ${ENSEMBL_LINUXBREW_DIR}/bin/g++-4.8
-ln -s ${ENSEMBL_LINUXBREW_DIR}/bin/gcc ${ENSEMBL_LINUXBREW_DIR}/bin/gcc-4.8
-ln -s ${ENSEMBL_LINUXBREW_DIR}/bin/gfortran ${ENSEMBL_LINUXBREW_DIR}/bin/gfortran-4.8
+#rm  ${ENSEMBL_LINUXBREW_DIR}/bin/g++-4.8 ${ENSEMBL_LINUXBREW_DIR}/bin/gcc-4.8  ${ENSEMBL_LINUXBREW_DIR}/bin/gfortran-4.8
+#ln -s ${ENSEMBL_LINUXBREW_DIR}/bin/g++ ${ENSEMBL_LINUXBREW_DIR}/bin/g++-4.8
+#ln -s ${ENSEMBL_LINUXBREW_DIR}/bin/gcc ${ENSEMBL_LINUXBREW_DIR}/bin/gcc-4.8
+#ln -s ${ENSEMBL_LINUXBREW_DIR}/bin/gfortran ${ENSEMBL_LINUXBREW_DIR}/bin/gfortran-4.8
 
 
 
