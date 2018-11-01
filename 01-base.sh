@@ -253,6 +253,14 @@ cd -
 #cd $(brew --repository ensembl/cask)
 #git checkout feature/hdf5@1.8.20
 #cd -
+
+
+
+
+
+
+
+
 #######################TEMP################################
 
 print_this "Installing Ensembl base libraries"
@@ -287,4 +295,28 @@ time brew install ensembl/cask/web-base
 print_this "Installing Ensembl base libraries for cpanm"
 
 time brew install ensembl/cask/web-libsforcpanm
+
+
+
+#######################TEMP################################
+
+curl https://www.ebi.ac.uk/~sboddu/docker_test/RepeatMasker-open-4-0-5.tar.gz --output ${HOME}/.cache/Homebrew/RepeatMasker-open-4-0-5.tar.gz
+
+#######################TEMP################################
+
+print_this "Installing Ensembl base libraries for gui"
+
+time brew install ensembl/cask/web-gui
+
+print_this "Installing Ensembl base libraries for bioinfo"
+
+time brew install ensembl/cask/web-bifo
+
+print_this "Installing Ensembl base libraries for internal purposes"
+
+time brew install ensembl/cask/web-internal
+
+
+
+brew link --force hdf5@1.8
 
