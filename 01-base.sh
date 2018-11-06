@@ -236,7 +236,7 @@ mkdir -p $HOMEBREW_ENSEMBL_MOONSHINE_ARCHIVE
 
 
 print_this "Tapping Homebrew External, Homebrew Ensembl, Homebrew Web, Homebrew Moonshine and Homebrew Cask"
-#brew tap ensembl/external && \
+brew tap ensembl/external && \
 #brew tap ensembl/ensembl && \
 brew tap ensembl/web && \
 brew tap ensembl/moonshine && \
@@ -253,15 +253,6 @@ cd -
 ############################################################################################################
 
 
-
-###################### TEMP SOLUTION UNTIL REPEATMASKER HAS BEEN UPGRADED 4.0.7 ################################
-
-brew tap ensembl/external --full
-cd $(brew --repository ensembl/external)
-git checkout temp/repeatmasker
-cd -
-
-############################################################################################################
 
 print_this "Installing Ensembl base libraries"
 
@@ -281,14 +272,6 @@ if [ ! -z "$IS_A_DOCKER_INSTALL" ]; then brew install python@2 --build-from-sour
 
 
 time brew install ensembl/cask/web-base
-
-
-
-
-#rm  ${ENSEMBL_LINUXBREW_DIR}/bin/g++-4.8 ${ENSEMBL_LINUXBREW_DIR}/bin/gcc-4.8  ${ENSEMBL_LINUXBREW_DIR}/bin/gfortran-4.8
-#ln -s ${ENSEMBL_LINUXBREW_DIR}/bin/g++ ${ENSEMBL_LINUXBREW_DIR}/bin/g++-4.8
-#ln -s ${ENSEMBL_LINUXBREW_DIR}/bin/gcc ${ENSEMBL_LINUXBREW_DIR}/bin/gcc-4.8
-#ln -s ${ENSEMBL_LINUXBREW_DIR}/bin/gfortran ${ENSEMBL_LINUXBREW_DIR}/bin/gfortran-4.8
 
 
 
