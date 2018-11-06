@@ -69,8 +69,8 @@ ENSEMBL_PYTHON_REQUIREMENTS="https://raw.githubusercontent.com/Ensembl/python-re
 
 
 # Check if 01-base.sh and 02-gui-bioinfo-and-internal.sh scripts are run successfully
-if [[ ! -f "$ENSEMBL_LINUXBREW_DIR/.base_installation_completed" || ! -f "$ENSEMBL_LINUXBREW_DIR/.other_libs_installation_completed" ]]; then
-    print_this "Looks like there was a problem either installting base libraries or other libraries. Install them before running this script. Aborting!"
+if [[ ! -f "$ENSEMBL_LINUXBREW_DIR/.base_libs_installed" || ! -f "$ENSEMBL_LINUXBREW_DIR/.additional_libs_installed" ]]; then
+    print_this "Looks like there was a problem either installting base libraries or other additional gui/bioinfo/internal libraries. Install them before running this script. Aborting!"
     return
 fi
 
