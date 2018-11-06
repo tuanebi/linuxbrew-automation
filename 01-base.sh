@@ -279,4 +279,6 @@ print_this "Installing Ensembl base libraries for cpanm"
 
 time brew install ensembl/cask/web-libsforcpanm
 
-
+# Create a file as a check for installting libs from other scripts.
+# Should we create an environment variable instead of this?
+touch $ENSEMBL_LINUXBREW_DIR/.base_installation_completed

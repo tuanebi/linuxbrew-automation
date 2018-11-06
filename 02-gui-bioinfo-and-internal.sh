@@ -12,6 +12,13 @@ function print_this {
 
 ##### Functions end
 
+
+# Check if 01-base.sh script is run successfully
+if [ ! -f "$ENSEMBL_LINUXBREW_DIR/.base_installation_completed" ]; then
+    print_this "Looks like there was a problem installting base libraries. Install base libraries before running this script. Aborting!"
+    return
+fi
+
 print_this "Installing Ensembl base libraries for gui"
 
 time brew install ensembl/cask/web-gui
