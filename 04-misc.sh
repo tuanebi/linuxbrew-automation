@@ -1,12 +1,47 @@
 #!/bin/bash
 
+##### Functions start
+
+function print_this {
+
+   printf '%.0s*' {1..125}; echo
+   printf "%s" "$@"; echo
+   printf '%.0s*' {1..125}; echo
+
+}
+
+
+##### Functions end
 
 
 
-if [[ -z $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR || ! -d $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR ]]; then
-  printf "\n%s\n" "****** ENSEMBL_SOFTWARE_DEPENDENCIES_DIR is either not set or $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR directory is empty ******"
-  return
+
+
+# Check if 01-base.sh and 02-gui-bioinfo-and-internal.sh scripts are run successfully
+if [[ ! -f "$ENSEMBL_LINUXBREW_DIR/.base_libs_installed" || ! -f "$ENSEMBL_LINUXBREW_DIR/.additional_libs_installed" || ! -f "$ENSEMBL_LINUXBREW_DIR/.perl_and_python_dependencies_installed"  ]]; then
+    print_this "This scripts needs base, additional, perl and python dependencies installed. Install them before running this script. Aborting!"
+    return
 fi
+
+
+
+if [ -z "$IS_A_DOCKER_INSTALL" ]; then
+
+    read -p "Symlinks will be created into $SHARED_PATH directory pointing to $ENSEMBL_LINUXBREW_DIR directory. Continue?: "  -n 1 -r
+    echo
+
+    if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+       print_this "Aborting installation"
+       return
+    fi
+fi
+
+
+
+#if [[ -z $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR || ! -d $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR ]]; then
+#  printf "\n%s\n" "****** ENSEMBL_SOFTWARE_DEPENDENCIES_DIR is either not set or $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR directory is empty ******"
+#  return
+#fi
 
 
 printf "\n%s\n" "****** Setting up fonts ******"

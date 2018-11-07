@@ -92,7 +92,7 @@ printf "\n%s\n%s\n" $ENSEMBL_PERL_MODULES $ENSEMBL_PYTHON_REQUIREMENTS
 
 if [ -z "$IS_A_DOCKER_INSTALL" ]; then
 
-    read -p "Perl modules and Python packages from the above files will be installed into $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR build. Continue?: "  -n 1 -r
+    read -p "Perl modules and Python packages from the above files will be installed into $ENSEMBL_LINUXBREW_DIR. Continue?: "  -n 1 -r
     echo
 
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
@@ -109,3 +109,9 @@ install_perl_modules
 install_python_packages
 
 popd
+
+
+
+# Create a file as a check for installing Perl modules and Python packages.
+# Should we create an environment variable instead of this?
+touch $ENSEMBL_LINUXBREW_DIR/.perl_and_python_dependencies_installed
