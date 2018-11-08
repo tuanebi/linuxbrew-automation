@@ -44,7 +44,7 @@ fi
 #fi
 
 
-printf "\n%s\n" "****** Setting up fonts ******"
+print_this "Setting up fonts"
 
 if [[ -d '/usr/share/fonts/msttcore/' ]]; then
     ln -s /usr/share/fonts/msttcore ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/fonts
@@ -59,7 +59,7 @@ fi
 
 
 
-printf "\n%s\n" "****** Installing hubcheck and FileChameleon ******"
+print_this "Installing hubcheck and FileChameleon"
 
 #At the moment, utils hosts hubcheck and FileChameleon
 [ -d "$ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/utils" ] || mkdir $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/utils
