@@ -44,18 +44,18 @@ fi
 #fi
 
 
-print_this "Setting up fonts"
+#print_this "Setting up fonts"
 
-if [[ -d '/usr/share/fonts/msttcore/' ]]; then
-    ln -s /usr/share/fonts/msttcore ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/fonts
-    printf "\n%s\n%s\n" "***** Microsoft True Type fonts found *****" "****** ln -s /usr/share/fonts/msttcore/ ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/fonts ******"
-elif [[ -d '/usr/local/share/fonts/msttcore/' ]]; then
-    ln -s /usr/local/share/fonts/msttcore/ ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/fonts
-    printf "\n%s\n%s\n" "***** Microsoft True Type fonts found *****" "****** ln -s /usr/local/share/fonts/msttcore/ ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/fonts ******"
-else 
-    printf "\n%s\n" "****** Looks like Microsoft True Type fonts are not installed on your machine. Please install them before proceeding ******"
-    return
-fi
+#if [[ -d '/usr/share/fonts/msttcore/' ]]; then
+#    ln -s /usr/share/fonts/msttcore ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/fonts
+#    printf "\n%s\n%s\n" "***** Microsoft True Type fonts found *****" "****** ln -s /usr/share/fonts/msttcore/ ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/fonts ******"
+#elif [[ -d '/usr/local/share/fonts/msttcore/' ]]; then
+#    ln -s /usr/local/share/fonts/msttcore/ ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/fonts
+#    printf "\n%s\n%s\n" "***** Microsoft True Type fonts found *****" "****** ln -s /usr/local/share/fonts/msttcore/ ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/fonts ******"
+#else 
+#    printf "\n%s\n" "****** Looks like Microsoft True Type fonts are not installed on your machine. Please install them before proceeding ******"
+#    return
+#fi
 
 
 
