@@ -19,6 +19,23 @@ if [ ! -f "$ENSEMBL_LINUXBREW_DIR/.base_libs_installed" ]; then
     return
 fi
 
+
+
+if [ -z "$IS_A_DOCKER_INSTALL" ]; then
+
+   read -p "Libraries will be installed into $ENSEMBL_LINUXBREW_DIR. Continue?: "  -n 1 -r
+   echo
+
+   if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+       print_this "Aborting installation!"
+       return
+   fi
+
+fi
+
+
+
+
 print_this "Installing Ensembl base libraries for gui"
 
 time brew install ensembl/cask/web-gui

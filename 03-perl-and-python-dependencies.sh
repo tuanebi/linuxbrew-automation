@@ -96,7 +96,7 @@ if [ -z "$IS_A_DOCKER_INSTALL" ]; then
     echo
 
     if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-       print_this "Aborting installation"
+       print_this "Aborting installation!"
        return
     fi
 fi
