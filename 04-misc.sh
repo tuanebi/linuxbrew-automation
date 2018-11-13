@@ -103,6 +103,7 @@ ln -s $ENSEMBL_LINUXBREW_DIR/opt/perl/lib/perl5/site_perl/*/ $SHARED_PATH/bioper
 ln -s $ENSEMBL_LINUXBREW_DIR/opt/htslib/include $SHARED_PATH/htslib
 ln -s $ENSEMBL_LINUXBREW_DIR/opt/kent/bin/gfClient $SHARED_PATH/gfClient
 ln -s $ENSEMBL_LINUXBREW_DIR/opt/blast/bin $SHARED_PATH/ncbi-blast
+ln -s $ENSEMBL_LINUXBREW_DIR/opt/nginx-full/bin/nginx $SHARED_PATH/nginx
 ln -s $ENSEMBL_LINUXBREW_DIR/opt/repeatmasker/bin/RepeatMasker $SHARED_PATH/RepeatMasker
 ln -s $ENSEMBL_LINUXBREW_DIR/opt/crossmap/bin/CrossMap.py $SHARED_PATH/CrossMap.py
 ln -s $ENSEMBL_LINUXBREW_DIR/opt/kent/bin/wigToBigWig $SHARED_PATH/wigToBigWig
