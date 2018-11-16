@@ -44,6 +44,26 @@ fi
 #fi
 
 
+
+
+if [ ! -z "$IS_A_DOCKER_INSTALL" ]; then
+
+   print_this "Installing MS TrueType fonts"
+   sudo yum install epel-release -y
+   sudo rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-5.el7.nux.noarch.rpm
+   sudo yum install msttcore-fonts-installer -y
+   
+   print_this "Code expects font files in ucfirst in some places. Therefore, creating symlinks"
+   pushd /usr/share/fonts/msttcore
+   find ./ -type f -name '[a-z]*.ttf' -printf "%f\n" | while read file; do sudo ln -s $file ${file^}; done;
+   popd
+   
+   # Finally create symlink to $ENSEMBL_SOFTWARE_DEPENDENCIES_DIR/fonts where code is configured to look for fonts
+   ln -s /usr/share/fonts/msttcore ${ENSEMBL_SOFTWARE_DEPENDENCIES_DIR}/fonts
+   print_this "Done installing MS TrueType fonts"
+
+fi   
+
 #print_this "Setting up fonts"
 
 #if [[ -d '/usr/share/fonts/msttcore/' ]]; then
