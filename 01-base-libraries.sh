@@ -241,6 +241,7 @@ brew tap ensembl/external && \
 brew tap ensembl/web && \
 brew tap ensembl/moonshine && \
 brew tap ensembl/cask
+brew tap denji/nginx
 
 
 ###################### TEMP SOLUTION UNTIL DECISION ON UPGRADING HDF5 VERSION IS MADE ################################
