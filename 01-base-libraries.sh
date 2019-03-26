@@ -140,6 +140,14 @@ export HTSLIB_DIR="$ENSEMBL_LINUXBREW_DIR/opt/htslib"
 export KENT_SRC="$ENSEMBL_LINUXBREW_DIR/opt/kent"
 export MACHTYPE=x86_64 
 
+# Add PYTHONPATH for posgap
+export PYTHONPATH="$PYTHONPATH:/nfs/public/release/ensweb-software/sharedsw/2019_02_07/postgap/lib/"
+
+# Other brew variables
+export HOMEBREW_NO_INSTALL_CLEANUP=1
+export HOMEBREW_NO_ANALYTICS=1
+export HOMEBREW_NO_AUTO_UPDATE=1  
+
 EOF
 )
 
