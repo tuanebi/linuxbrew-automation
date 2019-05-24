@@ -48,9 +48,6 @@ print_this "Installing Ensembl base libraries for internal purposes"
 
 time brew install ensembl/cask/web-internal
 
-
-brew link --force hdf5@1.8
-
 # Create a file as a check for installing Perl modules and Python packages.
 # Should we create an environment variable instead of this?
 touch $ENSEMBL_LINUXBREW_DIR/.additional_libs_installed
