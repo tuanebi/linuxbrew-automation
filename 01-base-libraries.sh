@@ -268,20 +268,6 @@ popd
 ###################################################################################################################
 
 
-
-
-
-###################### TEMP SOLUTION UNTIL DECISION ON UPGRADING HDF5 VERSION IS MADE ################################
-
-brew tap ensembl/ensembl --full
-cd $(brew --repository ensembl/ensembl)
-git checkout feature/hdf5@1.8.20
-cd -
-
-############################################################################################################
-
-
-
 print_this "Installing Ensembl base libraries"
 
 
@@ -311,7 +297,6 @@ time brew install ensembl/cask/web-libsforcpanm
 # This is a hack to save build time while installing additional libs in ensembl-web-02 dockerfile.
 if [ ! -z "$IS_A_DOCKER_INSTALL" ]; then
   time brew install ensembl/external/emboss
-  time brew install hdf5@1.8
 fi
 
 
